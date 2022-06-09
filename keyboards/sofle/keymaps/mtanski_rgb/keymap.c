@@ -52,15 +52,31 @@
 #define SET_THUMB_CLUSTER(hsv) 	\
 	{25, 2, hsv}, \
 	  {35+ 25, 2, hsv}
-#define SET_LAYER_ID(hsv) 	\
+
+#define LED_KEYS_ALPHANUM(hsv) \
+    {9, 4, hsv}, \
+    {36+9, 4, hsv}, \
+    {13, 4, hsv}, \
+    {36+13, 4, hsv}, \
+    {19, 4, hsv}, \
+    {36+19, 4, hsv}, \
+    {23, 4, hsv}, \
+    {36+23, 4, hsv}, \
+    {29, 4, hsv}, \
+    {36+29, 4, hsv}, \
+    {33, 4, hsv}, \
+    {36+33, 4, hsv}
+
+#define SET_LAYER_ID(hsv) \
 	{0, 1, HSV_OVERRIDE_HELP(hsv, INDICATOR_BRIGHTNESS)}, \
-    {35+0, 1, HSV_OVERRIDE_HELP(hsv, INDICATOR_BRIGHTNESS)}, \
-		{1, 6, hsv}, \
-    {35+1, 6, hsv}, \
-		{7, 4, hsv}, \
-	  {35+ 7, 4, hsv}, \
-		{25, 2, hsv}, \
-	  {35+ 25, 2, hsv}
+    {36+0, 1, HSV_OVERRIDE_HELP(hsv, INDICATOR_BRIGHTNESS)}, \
+	{1, 6, hsv}, \
+    {36+1, 6, hsv}, \
+	{8, 4, hsv}, \
+    {36+8, 1, hsv}, \
+    {36+11, 1, hsv}, \
+	{17, 1, hsv}, \
+	{36+17, 1, hsv}
 
 
 enum sofle_layers {
@@ -100,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|------+-------+--------+--------+--------+------|  ===  |   |  ===  |--------+-------+--------+--------+--------+---------|
   KC_LCTRL, KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,  KC_MUTE,  KC_D_MUTE,KC_N,    KC_M,   KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
   //|------+-------+--------+--------+--------+------|  ===  |   |  ===  |--------+-------+--------+--------+--------+---------|
-              KC_SPC, KC_LGUI, TT(_LOWER),  KC_LSFT, KC_ENT,  KC_SPC, KC_ENT, OSL(_LOWER), KC_RALT, KC_DEL
+              KC_ENT, KC_LGUI, TT(_LOWER),  KC_LSFT, KC_SPC,      KC_ENT, KC_SPC,  MO(_LOWER), KC_RALT, KC_DEL
   //            \--------+--------+--------+---------+-------|   |--------+---------+--------+---------+-------/
 ),
 
@@ -122,13 +138,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,------------------------------------------------.                    ,---------------------------------------------------.
   _______,  KC_F1,  KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|------+-------+--------+--------+--------+------|                   |--------+-------+--------+--------+--------+---------|
-  _______,   KC_NO,  KC_UP,  KC_NO,   KC_NO,   KC_NO,                     KC_NO,   KC_NO,   KC_NO, KC_MINUS, KC_EQUAL, KC_F12,
+  _______,   KC_NO,  KC_UP,  KC_NO,   KC_NO,   KC_NO,                     KC_NO,   KC_UP,   KC_NO,   KC_MINUS, KC_EQUAL, KC_F12,
   //|------+-------+--------+--------+--------+------|                   |--------+-------+--------+--------+--------+---------|
-  _______,  KC_LEFT,KC_DOWN, KC_RIGHT, KC_NO,  KC_NO,                     KC_NO,   KC_NO,   KC_NO,   KC_NO,  KC_NO,   KC_NO,
+  _______,  KC_LEFT, KC_DOWN, KC_RIGHT, KC_NO, KC_NO,                     KC_LEFT, KC_DOWN,KC_RIGHT, KC_LCBR, KC_RCBR,   KC_NO,
   //|------+-------+--------+--------+--------+------|  ===  |   |  ===  |--------+-------+--------+--------+--------+---------|
   _______,  KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO, _______,    _______, KC_NO,  KC_NO, KC_LEFT_BRACKET, KC_RIGHT_BRACKET, KC_NO,  _______,
   //|------+-------+--------+--------+--------+------|  ===  |   |  ===  |--------+-------+--------+--------+--------+---------|
-                 _______, _______, KC_TRNS, KC_END, KC_PGDN,     KC_PGUP, KC_HOME, _______, _______, KC_INSERT
+                 _______,  _______, KC_TRNS, KC_END, KC_PGDN,      KC_PGUP, KC_HOME, KC_TRNS, _______, KC_INSERT
   //            \--------+--------+--------+---------+-------|   |--------+---------+--------+---------+-------/
   )
 };
@@ -140,11 +156,8 @@ char layer_state_str[70];
 // QWERTY,
 // Light on inner column and underglow
 const rgblight_segment_t PROGMEM layer_qwerty_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-  SET_LAYER_ID(HSV_RED)
+  SET_LAYER_ID(HSV_PURPLE)
 
-);
-const rgblight_segment_t PROGMEM layer_colemakdh_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-  SET_LAYER_ID(HSV_PINK)
 );
 
 // _NUM,
@@ -157,8 +170,7 @@ const rgblight_segment_t PROGMEM layer_num_lights[] = RGBLIGHT_LAYER_SEGMENTS(
 // Light on inner column and underglow
 const rgblight_segment_t PROGMEM layer_symbol_lights[] = RGBLIGHT_LAYER_SEGMENTS(
 	SET_LAYER_ID(HSV_BLUE)
-
-    );
+);
 // _COMMAND,
 // Light on inner column and underglow
 const rgblight_segment_t PROGMEM layer_command_lights[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -182,14 +194,12 @@ const rgblight_segment_t PROGMEM layer_switcher_lights[] = RGBLIGHT_LAYER_SEGMEN
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-
     layer_qwerty_lights,
 	layer_num_lights,// overrides layer 1
 	layer_symbol_lights,
     layer_command_lights,
 	layer_numpad_lights,
-	layer_switcher_lights,  // Overrides other layers
-	layer_colemakdh_lights
+	layer_switcher_lights  // Overrides other layers
 );
 
 layer_state_t layer_state_set_user(layer_state_t state) {

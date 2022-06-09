@@ -22,7 +22,7 @@
 
 ///https://thomasbaart.nl/2018/12/01/reducing-firmware-size-in-qmk/
 
-#define TAPPING_TOGGLE 2
+#define TAPPING_TOGGLE 1
 #ifdef TAPPING_TERM
     #undef TAPPING_TERM
     #define TAPPING_TERM 230
