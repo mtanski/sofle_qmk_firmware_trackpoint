@@ -22,15 +22,42 @@
 
 ///https://thomasbaart.nl/2018/12/01/reducing-firmware-size-in-qmk/
 
+#define SPLIT_LAYER_STATE_ENABLE
+
 #define TAPPING_TOGGLE 1
 #ifdef TAPPING_TERM
     #undef TAPPING_TERM
     #define TAPPING_TERM 230
 #endif
 
-#define MASTER_LEFT
-// #define MASTER_RIGHT
+// #define MASTER_LEFT
+#define MASTER_RIGHT
 // #define EE_HANDS
+
+#define RGB_DI_PIN D3
+
+#ifdef PS2_MOUSE_ENABLE
+  #define PS2_CLOCK_PIN   D1
+  #define PS2_DATA_PIN    D0
+
+  #define PS2_MOUSE_ROTATE 270
+  #define PS2_MOUSE_X_MULTIPLIER 3
+  #define PS2_MOUSE_Y_MULTIPLIER 3
+
+  #ifdef PS2_USE_INT
+    #define PS2_INT_INIT()  do {    \
+        EICRA |= ((1<<ISC11) |      \
+                (0<<ISC10));        \
+    } while (0)
+    #define PS2_INT_ON()  do {      \
+        EIMSK |= (1<<INT1);         \
+    } while (0)
+    #define PS2_INT_OFF() do {      \
+        EIMSK &= ~(1<<INT1);        \
+    } while (0)
+    #define PS2_INT_VECT   INT1_vect
+  #endif // PS2_USE_INT
+#endif // PS2_MOUSE_ENABLE
 
 #define CUSTOM_FONT
 
@@ -48,10 +75,6 @@
 #define RGBLIGHT_SLEEP
 //
 #define RGBLIGHT_LAYERS
-
-/* ws2812 RGB LED */
-#define RGB_DI_PIN D3
-
 
 #ifdef RGB_MATRIX_ENABLE
 #define RGBLED_NUM 36    // Number of LEDs
@@ -76,6 +99,7 @@
     #define RGBLED_NUM 72
 	//#define RGBLED_SPLIT
 	#define RGBLED_SPLIT { 36, 36 } // haven't figured out how to use this yet
+    #define SPLIT_LED_STATE_ENABLE
 
 	//#define RGBLED_NUM 30
     #define RGBLIGHT_LIMIT_VAL 120

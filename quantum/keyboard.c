@@ -630,7 +630,11 @@ void keyboard_task(void) {
 #endif
 
 #ifdef PS2_MOUSE_ENABLE
-    ps2_mouse_task();
+    static unsigned ps2_counter = 0;
+    ps2_counter += 1;
+    if (!(ps2_counter % 32)) {
+      ps2_mouse_task();
+    }
 #endif
 
 #ifdef POINTING_DEVICE_ENABLE

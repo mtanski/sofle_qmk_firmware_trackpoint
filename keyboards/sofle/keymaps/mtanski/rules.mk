@@ -1,0 +1,20 @@
+MOUSEKEY_ENABLE = yes
+EXTRAKEY_ENABLE = yes
+CONSOLE_ENABLE = no
+RGBLIGHT_ENABLE = yes
+RGBLIGHT_DRIVER = WS2812
+ENCODER_ENABLE = yes
+LTO_ENABLE = yes
+
+VIA_ENABLE = yes
+
+ifeq ($(strip $(MH_MODULE)), trackpoint)
+  OLED_ENABLE = no
+  PS2_MOUSE_ENABLE = yes
+  # PS2_USE_INT = yes
+  PS2_USE_BUSYWAIT = yes
+  OPT_DEFS += -DMODULE_TRACKPOINT
+else ifeq ($(strip $(MH_MODULE)), oled)
+  OLED_ENABLE = yes
+  OLED_DRIVER = SSD1306
+endif
